@@ -2,39 +2,41 @@
 
 ## 爬虫基础
 - HTTP基本原理
-    - URI = URL $\cup$ URN
-    - 超文本：HTML
-    - HTTPS：HTTP+SSL
+    - URI: Uniform Resource Identifier 
+        - URL: Universal Resource Locator
+        - URN: Universal Resource Name
+            - ISBN: `urn:isbn:0451450523`
     - HTTP请求过程
-        - 请求
+        - 请求Request
             - 请求方法：Get、Post
             - 请求网址：URL
             - Request Header
                 - Accept
                 - Accept-Language
                 - Accept-Encoding
-                - Host $\checkmark$
+                - Host
                 - Cookies
                 - Referer
                 - User-Agent
                 - Content-Type
                     - Post
-                      - application/x-www-form-urlencoded
-                      - multipart/form-data
-                      - application/json
-                      - text/xml
+                      - application/x-www-form-urlencoded: 表单数据
+                      - multipart/form-data: 表单文件上传
+                      - application/json: 序列化JSON数据
+                      - text/xml: XML数据
             - Request Body
-                - Post表单数据
-        - 响应
+                - Get: 空
+                - Post: 数据
+        - 响应Response
             - Status Code：404
             - Response Header
-                - Date
-                - Last-Modified
+                - Date: 标识响应产生的时间
+                - Last-Modified: 资源最后修改的时间
                 - Content-Encoding
                 - Server
                 - Content-Type
                 - Set-Cookie
-                - Expires
+                - Expires: 响应过期时间, 缓存
             - Response Body
                 - HTML
                 - Json
@@ -49,14 +51,14 @@
         - BeautifulSoup
         - pyquery
 - 爬虫基本原理
-    - 爬虫概述
-        - 获取网页
-        - 提取信息
-        - 保存数据
+    - 爬虫概述: 获取网页并提取和保存信息的自动化程序
+        - 获取网页: 实现HTTP请求
+        - 提取信息: 解析库
+        - 保存数据: 文本或数据库
         - 自动化程序
-    - 动态网页：JavaScript渲染页面
+    - 动态网页：JavaScript渲染页面(Ajax,前端模块化工具)
 - Session和Cookies
-    - 无状态HTTP
+    - HTTP: 无状态, 无连接
     - Session：服务器
     - Cookies：客户端
         - Name
@@ -64,34 +66,38 @@
         - Value
             - Unicoode字符:字符编码
             - Binary数据：BASE64编码
-        - Domian
-        - Max Age
-        - Path
+        - Domian: 可以访问该Cookie的域名
+        - Max Age: 该Cookie失效的时间
+        - Path: 该Cookie的使用路径
         - Size
-        - HTTP字段: httponly(只能在HTTP头中)
-        - Secure
-- 代理的基本元素
-    - 基本原理：proxy server
-    - 代理的作用阿布云代理
-    - 爬虫代理
+        - HTTP字段: `httponly=true` (不能被JavaScript获取)
+        - Secure: 该Cookie是否仅被使用安全协议传输
+- 代理的基本元理
+    - 代理服务器proxy server: 网络信息的中转站
+    - 代理的作用
+        - 突破自身IP访问限制
+        - 访问单位或团体内部资源
+        - 隐藏真实IP
+        - 提高访问速度
+    - 爬虫代理: `您的IP访问频率太高`
     - 代理分类
-        - 根据协阿布云代理
-            - FTP代理服务器
-            - HTTP代理服务器
-            - SSL/TLS代理
-            - RTSP代理
-            - Telent代理
-            - POP3/SMTP代理
-            - SOCKS代理
+        - 根据协议区分
+            - FTP代理服务器: 21, 2121
+            - HTTP代理服务器: 80, 8080, 3128
+            - SSL/TLS代理: 443
+            - RTSP代理(访问Real流媒体服务器): 554
+            - Telent代理(远程控制): 23
+            - POP3/SMTP代理: 110/25
+            - SOCKS代理(只传递数据包): 1080
         - 匿名程度区分
             - 高度匿名代理
-            - 普通匿名代理
-            - 透明代理
-            - 间谍代理
+            - 普通匿名代理: `HTTP_VIA` `HTTP_X_FORWARDED_FOR`
+            - 透明代理: 内网中的硬件防火墙
+            - 间谍代理: 记录用户传输的数据
     - 常见设置  
         - 免费代理
         - 付费代理
-        - ADSL拨号
+        - ADSL拨号: 频分复用技术把普通的电话线分成电话,上行和下行3个独立的信道, 拨一次号换一次IP
 
 ## 基本库的使用
 - urllib：处理Cookies麻烦(需要Opener和Handler)
@@ -104,6 +110,7 @@
     - Get请求
         - 基本实例：`r = requests.get(url, headers=headers,params=params)`
         - 抓取网页：`r.text()` `r.json()`
+        - 内置的状态码查询对象: `requests.codes.ok`
         - 抓取二进制数据：`r.context()`
         - 响应：`r.status_code`, `r.cookies`, `r.history`
     - Post请求：`r = requests.post(url, data=data)`
@@ -111,22 +118,22 @@
         - 上传文件：`requests.post(url, files=files)`file类型为字典
         - Cookies：`key+'='+value`
         - 会话维持：`requests.Session()`
-        - SSL证书验证：`requests.get(url, verify=False)`+`logging.captureWarnings(True)`
+        - SSL证书验证：`requests.get(url, verify=False)`
         - 代理设置：`requests.get(url, proxies=proxies)`
-        - 超时设置：`timeout = 1`
-        - 身份认证：`requests.get(url, auth=('username', 'passport'))`
-        - Prepared Request：`s=Session()`+`req=Request()`+`pre=s.prepare_request(req)`+`r = s.send(prepped)`
-- 正则表达式
-    - 从字符串起始位置匹配：`result=re.match()`
+        - 超时设置：`requests.get(url, timeout = 1)`
+        - 身份认证：`requests.get(url, auth=('username', 'password'))`
+        - Prepared Request：`s=Session()`+`req=Request('GET', url)`+`pre=s.prepare_request(req)`+`r = s.send(prepped)`
+- 正则表达式: `[a-zA-Z]+://[^\s]*`
+    - 从字符串起始位置匹配：`result=re.match(pattern, text)`
         - 匹配目标：`result.group()`
         - 通用匹配：`'.*'`
-        - 贪婪与非贪婪：`'.*?'`
+        - 贪婪与非贪婪：`'.*(\d+)'` vs `'.*?(\d+)'`
         - 修饰符：`re.match(pattern, text, re.S)`包含换行符
         - 转移匹配：`r''`+`\.`
-    - 扫描整个字符串：`re.search()`
+    - 扫描整个字符串(第一个内容)：`re.search()`
     - 匹配所有内容：`re.findall()`
     - 修改文本：`re.sub('\d+', '', text)`
-    - 正则表达式对象：`re.complie()`
+    - 正则表达式对象：`re.complie(pattern)`
 
 ## 解析库
 - Xpath：
@@ -140,15 +147,15 @@
     - 文本获取：`//text()`
     - 属性获取：`/@href`
     - 属性多值匹配：`/li[contains(@class, "li")]`
-    - 多属性匹配：`/li[contains(@class, "li")] and @name="item"`
+    - 多属性匹配：`/li[contains(@class, "li") and @name="item"]`
     - 按序选择(从1开始)：`//li[1]`
     - 节点轴选择：`//li[1]/child::*`
-
 - BeautifulSoup
-    - 基本实例：`soup = BeautifulSoup(text, "lxml")`+`soup.prettify()`
+    - 基本实例：`soup = BeautifulSoup(html, "lxml")`+`soup.prettify()`+`soup.title.string`
     - 选取节点：`soup.p`
-- pyquery：`from pyquery import PyQuery as pq`
+- pyquery：CSS选择器 `from pyquery import PyQuery as pq`
     - 基本实例：`doc=pq(html)` + `doc('li')`
+    - 伪类选择器:`doc('li:first-child')`
 
 ## 数据存储
 - 文件存储
@@ -165,26 +172,26 @@
 - 关系性数据库：
     - MySQL: `pymysql`
         - 操作流程
-            - `db = pymysql.connect()`
+            - `db = pymysql.connect(host, user, password, port)`
             - `cursor = db.cursor()`
-            - `cursor.execute()`
+            - `cursor.execute(SQL)`
             - `data = cursor.fetchone()`
             - `db.commit()`
             - `db.close()`
     - 非关系型数据库存储
         - 键值存储：
-            - Redis
+            - Redis: `redis-py`
               - 操作流程
-                  - `redis = StrictRedis()`
+                  - `redis = StrictRedis(host, port, db, password)`
                   - `redis.set()`
                   - `redis.get()`
               - RedisDump
-                  - 导出数据：`redis-dump`
-                  - 导入数据：`redis-load`
+                  - 导出数据：`redis-dump -u :footbared@localhost:6379 -d 1 > ./redis.data/jl`
+                  - 导入数据：`< redis_data.json redis-load -u :foobared@localhost:6379`
         - 文档型
             - MongoDB:`pymongo`
                 - 操作流程
-                    - `client = pymongo.MongoClient()`
+                    - `client = pymongo.MongoClient(host, port)`
                     - `db = client.test`
                     - `collection = db.students`
                     - `collection.insert_one()`
@@ -192,17 +199,17 @@
 ## AJAX数据
 - Ajax:异步的JavaScript和XML
     - 基本原理
-        - 发送请求
+        - 发送请求: `XMLHttpRequest`
         - 解析内容
         - 渲染网页
 - Ajax分析方法
     - Network: XHR
         - Request Headers
-            -  X-Requested-With:XMLHttpRequest
+            -  `X-Requested-With:XMLHttpRequest`
     - 结果提取
 
 ## 动态渲染页面爬取
-- Selenium
+- Selenium: 自动化测试工具
     - 声明浏览器对象：`browser=webdriver.Chrome()`
     - 访问页面：`browser.get(url)`
     - 查找节点：`input=browser.find_element(s)(By.ID, 'q')`
@@ -222,8 +229,8 @@
         - 获取id、位置、标签名和大小：`id`+`location`+`tag_name`+`size`
     - 切换Frame：`browser.switch_to.frame('iframeResult')`
     - 延时等待
-        - 隐式等待：`browser.implicity_wait(10)`
-        - 显式等待：`wait = WebDriverWait(browser, 10)`+`input = wait.until(EC.presence_of_element_located((By.ID,'q')))`
+        - 隐式等待(固定时间)：`browser.implicity_wait(10)`
+        - 显式等待(最长时间)：`wait = WebDriverWait(browser, 10)`+`input = wait.until(EC.presence_of_element_located((By.ID,'q')))`
     - 前进和后退：`broswer.back()`+`broswer.forword()`
     - Cookies: `broswer.get_cookies()`
     - 选项卡管理：`broswer.switch_to_window()`
@@ -232,7 +239,7 @@
     - Lua 脚本：`splash:go(url)`
     - 异步：`splash:wait(0.5)`
     - 禁止图片加载：`images_enabled = false`
-    - API调用
+    - API调用: `curl http://localhost:8050/render.html?url=https://www.baidu.com`
         - HTML:`render.html`
         - 图片：`render.png`
         - Json: `render.json`
@@ -284,8 +291,8 @@
             - 不可用减1：代理拯救回来的机会更多
             - 新获取设为10：免费网站无效比例高
         - 接口模块Web API：接口通过连接数据库并通过Web形式返回可用代理
+        - 调度模块: 以多进程的形式运行
     - ADSL拨号代理：每次拨号就换一个IP
-
 - Cookie池
     - 存储模块：Redis Hash
         - `accounts`：`username:password`
@@ -297,16 +304,17 @@
         - 检测Cookies失效
         - 数据库中移除
     - 接口模块
-
+    - 调度模块: 以多进程的形式运行
 ## App的爬取
+- App的爬取更加容易: 数据大多以Json形式传输
 - 设置代理
     - 抓包软件: 
         - `Charles`
         - `mitmproxy`
-            - `mitmdump`
+            - `mitmdump`: 对接Python脚本,实现监听后的处理
             - `mitmweb`
     - 自动化：`Appium`
-
+        - Appium + mitmdump
 ## 框架
 - 框架的形成：只需关注核心逻辑
     - 不同功能定义不同的方法
@@ -328,23 +336,23 @@
         - 项目状态：`RUNNING`
         - 抓取进度：progress
         - 删除项目：`STOP` + `delete`
-- Scrapy：反爬程度强、超大规模的抓取，基于Twisted的异步处理框架 ![Scrapy](images/scrapy.jpeg)
+- Scrapy：反爬程度强、超大规模的抓取，可扩展程度高, 基于Twisted的异步处理框架 ![Scrapy](images/scrapy.jpeg)
     - 组成
-        - Engine
-        - Item
-        - Scheduler
-        - Downloader
-        - Spiders
-        - Item Pipeline
-        - Downloader Middlewares
-        - Spider Middlewares
+        - Engine: 处理整个系统的数据流处理,触发事务
+        - Item: 爬取结果的数据结构
+        - Scheduler: 接受引擎发送的请求并将其加入队列中, 在引擎再次请求的时候将请求提供给引擎
+        - Downloader: 下载网页内容,并将网页内容返回给蜘蛛
+        - Spiders: 解析响应并生成提取结果和新的请求
+        - Item Pipeline: 清洗,验证和存储数据
+        - Downloader Middlewares: 引擎与下载器之间的请求和响应
+        - Spider Middlewares: 蜘蛛输入的响应和输出的结果及新的请求
     - 项目结构
         - `scrapy.cfg`
         - `items.py`
         - `pipelines.py`
         - `settings.py`
         - `middlewares.py`
-        - `spiders`
+        - `spiders/`
     - Selector的用法
         - Scrapy shell: `scrapy shell url`
         - xpath选择器：
@@ -373,7 +381,7 @@
             - `process_request(request, spider)`
             - `process_response(request, response, spider)`
             - `process_exception(request, exception, spider)`
-    - Spider Middleware: Downloader、Spider、Item Pipsline
+    - Spider Middleware: Downloader、Spider、Item Pipeline
         - 变量(字典)：`SPIDER_MIDDLEWARES_BASE={name: score}`
         - 核心方法
             - `process_spider_input(response, spider)`
