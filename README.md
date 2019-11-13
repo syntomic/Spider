@@ -40,7 +40,6 @@
     - [淘宝商品](https://github.com/syntomic/Spider/tree/master/TaobaoProduct/)
         - Selenium: 设置开发者选项
         - 绑定账号登录
-- 绑定帐号
     - 利用Scrapy框架
         - [Scrapy入门](https://github.com/syntomic/Spider/tree/master/ScrapyTutorial/): 各个模块独立,结合任务调度, 就形成了框架
         - [python职位](https://github.com/syntomic/Spider/tree/master/PythonJob/)
