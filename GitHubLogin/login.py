@@ -39,9 +39,9 @@ class Login(object):
     
     def dynamics(self, html):
         selector = etree.HTML(html)
-        dynamics = selector.xpath('//div[contains(@class, "news")]//div[contains(@class, "alert")]')
+        dynamics = selector.xpath('//div[@class="news"]//div[@class="push"]')
         for item in dynamics:
-            dynamic = ' '.join(item.xpath('.//div[@class="title"]//text()')).strip()
+            dynamic = ' '.join(item.xpath('.//div[@class="d-flex"]//text()')).strip()
             print(dynamic)
     
     def profile(self, html):
@@ -54,4 +54,4 @@ class Login(object):
 if __name__ == "__main__":
     login = Login()
     # 填写github邮箱和密码
-    login.login(email='email', password='password')
+    login.login(email='youremail', password='yourpassword')

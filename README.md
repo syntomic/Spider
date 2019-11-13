@@ -1,8 +1,32 @@
 ## Python爬虫
 - [理论基础](spider.md): 大规模,自动化复制粘帖
-- 反爬策略
-    - [代理池](https://github.com/syntomic/Spider/tree/master/ProxyPool/)
-    - [Cookies池](https://github.com/syntomic/Spider/tree/master/CookiesPool/)
+    - 爬取
+        - 网页
+            - 服务端渲染
+            - 客户端渲染: Ajax Selenium
+        - APP: 接口
+    - 解析
+        - re/Xpath/CSS Selector
+        - 智能解析
+    - 反爬
+        - 非浏览器检测
+        - 封IP
+            - 手机站点
+            - [代理池](https://github.com/syntomic/Spider/tree/master/ProxyPool/)
+        - 验证码: 打码平台
+        - 封帐号
+            - [Cookies池](https://github.com/syntomic/Spider/tree/master/CookiesPool/)
+    - 存储
+        - 文件
+        - 数据库
+        - 搜索引擎
+    - 加速
+        - 优化: DNS缓存
+        - 多线程/进程
+        - 异步
+        - 分布式: Scrapy-Redis-BloomFliter
+        - 部署
+            - Docker
 - 实战项目
     - [猫眼电影Top100](https://github.com/syntomic/Spider/tree/master/MaoYan/)
         - 利用requests和正则表达式抓取
